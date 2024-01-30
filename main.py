@@ -19,28 +19,35 @@ db = SQLAlchemy(app)
 #       Render Contact page                   #
 ###############################################
 
-class ContactMessage(db.Model):
-    __tablename__ = 'contact_messages'
+class Contact(db.Model):
+    __tablename__ = 'contact'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), nullable=False)
     subject = db.Column(db.String(100), nullable=False)
     message = db.Column(db.Text)
+    def __repr__(self):
+        return f'<Contact {self.name}>'
 
+# Create tables
+with app.app_context():
+  db.create_all()
+
+# Route to render the contact page
 @app.route('/contactus', methods=["GET", "POST"])
 def get_contact():
     form = ContactForm()
     
-    if request.method == 'POST' and form.validate_on_submit():
+    if request.method == 'POST':
         name = form.name.data
         email = form.email.data
         subject = form.subject.data
         message = form.message.data
 
         try:
-            # Create a ContactMessage instance and add it to the database
-            contact_message = ContactMessage(name=name, email=email, subject=subject, message=message)
-            db.session.add(contact_message)
+            # Create a Contact instance and add it to the database
+            contact = Contact(name=name, email=email, subject=subject, message=message)
+            db.session.add(contact)
             db.session.commit()
             return render_template('contact.html', form=form)
         except Exception as e:
@@ -56,5 +63,4 @@ def get_contact():
 #                Run app                      #
 ###############################################
 if __name__ == '__main__':
-    db.create_all()  # Create the database tables
     app.run(debug=True, host='0.0.0.0', port=4000)
