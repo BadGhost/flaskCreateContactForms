@@ -1,3 +1,5 @@
 flask
 pandas
 flask_wtf
+psycopg2-binary
+Flask-SQLAlchemy
