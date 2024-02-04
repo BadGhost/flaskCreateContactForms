@@ -1,12 +1,12 @@
 services:
   flaskcontact:
     container_name: flaskcontact
-    image: flaskapp:latest
+    image: tunaa/flaskwebapp:latest
     build: 
       context: .
       dockerfile: Dockerfile
     ports:
-      - "4000:4000"
+      - "80:4000"
     restart: always
     environment:
       - DATABASE_URL=postgresql://postgres:simonza01@db:5432/postgres
