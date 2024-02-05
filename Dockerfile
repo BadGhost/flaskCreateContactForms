@@ -5,7 +5,7 @@ FROM python:3.8-slim-buster
 WORKDIR /app
 
 # Copy the application files to the container
-COPY requirements.txt ./
+COPY requirements.txt .
 
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
@@ -13,7 +13,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Expose the port on which the application will run
-EXPOSE 4000
+EXPOSE 80
 
 ENV FLASK_APP=main.py
 
