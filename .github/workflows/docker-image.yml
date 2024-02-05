@@ -1,0 +1,29 @@
+name: Docker Compose
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  push:
+    branches: [ production ] 
+  pull_request:
+    branches: [ production ]
+
+jobs:
+
+  build:
+  
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: docker login
+      env:
+        DOCKER_USER: ${{secrets.DOCKER_USER}}
+        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      run: |
+        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+        
+    - name: Build and push 
+      run: |
+        docker-compose build
+        docker-compose push 
