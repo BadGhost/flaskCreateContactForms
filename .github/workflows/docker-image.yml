@@ -41,4 +41,5 @@ jobs:
         port: 22
         script: |
           cd production
+          docker compose pull
           docker compose up -d
